@@ -10,10 +10,11 @@ import {
     ActivityIndicator,
     ScrollView,
     ImageBackground,
-    TextInput,
+    Dimensions,
   } from "react-native";
   import * as ImagePicker from 'expo-image-picker';
   import React, { useState, useEffect } from "react";
+  const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function Fertilizer() {
 
@@ -108,19 +109,31 @@ const uploadImages = async () => {
   }
 };
 
+const Header = () => {
+  return (
+    <View style={styles.headerContainer}>
+      <TouchableOpacity style={styles.backButton} 
+      onPress={() => navigation.navigate('DiseaseHome')}
+      >
+        <Text style={styles.backText}>{"< Back"}</Text>
+      </TouchableOpacity>
+      <View style={styles.headerContent}>
+              <Text style={styles.headerText}>Treat orchids with grow lights...</Text>
+    <Image
+      source={require("../assets/images/injection.png")}
+      style={styles.headerIcon}
+    />
+     </View>
+    </View>
+  );
+};
+
 
 
   return (
     <ScrollView>
     <View>
-    {/* Header Section */}
-<View style={styles.header}>
-<View style={styles.headerContainer}>
-<Text style={styles.title}>Fertilizer                    Recommendations..</Text>
-<Image source={require("../assets/images/droplet.png")} // Replace with your image path
-       style={styles.headerImage}/>
-</View>
-</View>
+    <Header/>
 
 <View style={styles.container}>
 
@@ -217,44 +230,51 @@ const styles = StyleSheet.create({
     //   backgroundColor: "#F5F5F5",
       padding: 20,
     },
-    header: {
-      alignItems: "center",
+    headerContainer: {
+      padding: 16,
+      backgroundColor: '#096c3a',
+      // borderRadius: 8,
+      alignItems: 'center',
+      marginBottom: 16,
       borderBottomEndRadius:20,
       borderBottomStartRadius:20,
-      height:200,
-      marginBottom: 20,
-      backgroundColor: "#2e7d32",
+      height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
+      // paddingHorizontal: 16,
+      paddingTop: 16,
+      justifyContent:"flex-end",
+      // borderWidth:1,
+  
     },
-    headerImage: {
-      width: 90, // Image width
-      height: 70, // Image height
-      resizeMode: "contain", // Maintain image aspect ratio
-      // borderWidth:5,
-      marginBottom:30,
+    headerContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      // borderWidth:1,
+      width:"93%",
     },
-    headerContainer: {
-      marginTop:113,
-      // borderWidth:5,
-      flexDirection: "row", // Align items horizontally
-      alignItems: "center", // Align items vertically
-      justifyContent: "space-evenly", // Space between title/date and image
-      // borderWidth:2,
-      width: "100%",
-        },
-    title: {
-      // borderWidth:2,
-      fontSize: 24,
-      // top:100,
-      width:"60%",
-      // marginRight:"60%",
-      fontWeight: "bold",
-      color: "#F5F5F5",
+    headerText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#fff',
+      flex: 1,
+      // borderWidth:1,
     },
-    date: {
-        top:100,
-        marginRight:"58%",
+    headerIcon: {
+      width: 63,
+      height: 63,
+      // borderWidth:1,
+    },
+    backButton: {
+      position: 'absolute',
+      top: 50, // Adjust as needed
+      left: 29, // Adjust as needed
+      zIndex: 10,
+      // borderWidth:1,
+    },
+    backText: {
       fontSize: 16,
-      color: "#FFFFFF",
+      color: '#fff',
+      fontWeight: 'bold',
     },
     careSection: {
       flexDirection: "row",

@@ -7,6 +7,7 @@ import {
     Modal,
     Button,
     TouchableOpacity,
+    Dimensions,
     ActivityIndicator,
     ScrollView,
     ImageBackground,
@@ -18,6 +19,7 @@ import {
   import {getAuth, signOut  } from 'firebase/auth';
   import { Picker } from '@react-native-picker/picker';
   import DateTimePicker from "@react-native-community/datetimepicker";
+  const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
   
   const orchid_types = [
@@ -37,6 +39,7 @@ import {
 export default function WateringForm() {
     const [selectedBehavior, setSelectedBehavior] = useState('');
     const [selectedTest, setSelectedTest] = useState('');
+    const navigation = useNavigation();
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -90,13 +93,34 @@ export default function WateringForm() {
         console.log("Test selected",itemValue);
         setSelectedTest(itemValue);
       };
+
+      const Header = () => {
+        return (
+          <View style={styles.headerContainer}>
+            <TouchableOpacity style={styles.backButton} 
+            onPress={() => navigation.navigate('Watering')}
+            >
+              <Text style={styles.backText}>{"< Back"}</Text>
+            </TouchableOpacity>
+            <View style={styles.headerContent}>
+                    <Text style={styles.headerText}>Treat orchids with grow lights...</Text>
+          <Image
+            source={require("../assets/images/watering-can.png")}
+            style={styles.headerIcon}
+          />
+           </View>
+          </View>
+        );
+      };
+
   return (
     <View>
               {/* Header Section */}
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Text style={styles.title}>Watering form</Text>
         <Text style={styles.date}>10th Dec 2024</Text>
-      </View>
+      </View> */}
+      <Header/>
 
       <View style={styles.container}>
 
@@ -193,13 +217,51 @@ const styles = StyleSheet.create({
     //   backgroundColor: "#F5F5F5",
       padding: 20,
     },
-    header: {
-      alignItems: "center",
+    headerContainer: {
+      padding: 16,
+      backgroundColor: '#096c3a',
+      // borderRadius: 8,
+      alignItems: 'center',
+      marginBottom: 16,
       borderBottomEndRadius:20,
       borderBottomStartRadius:20,
-      height:200,
-      marginBottom: 20,
-      backgroundColor: "#2e7d32",
+      height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
+      // paddingHorizontal: 16,
+      paddingTop: 16,
+      justifyContent:"flex-end",
+      // borderWidth:1,
+  
+    },
+    headerContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      // borderWidth:1,
+      width:"93%",
+    },
+    headerText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#fff',
+      flex: 1,
+      // borderWidth:1,
+    },
+    headerIcon: {
+      width: 63,
+      height: 63,
+      // borderWidth:1,
+    },
+    backButton: {
+      position: 'absolute',
+      top: 50, // Adjust as needed
+      left: 29, // Adjust as needed
+      zIndex: 10,
+      // borderWidth:1,
+    },
+    backText: {
+      fontSize: 16,
+      color: '#fff',
+      fontWeight: 'bold',
     },
     title: {
       fontSize: 24,
@@ -234,8 +296,10 @@ const styles = StyleSheet.create({
     },
     button: {
       backgroundColor: "#2E7D32",
-      borderRadius: 10,
       paddingVertical: 10,
+      borderRadius:20,
+      marginLeft:"25%",
+      width:"50%",
       alignItems: "center",
       marginBottom: 20,
     },

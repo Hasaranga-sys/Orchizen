@@ -4,44 +4,50 @@ import {
     View,
     FlatList,
     Image,
-    Modal,
-    Button,
     TouchableOpacity,
-    ActivityIndicator,
-    ScrollView,
-    ImageBackground,
-    TextInput,
+    Dimensions,
+
   } from "react-native";
   // import React, { useState, useEffect } from "react";
   import { useNavigation } from "@react-navigation/native";
   import { auth } from '../firebase/firebase-config';
   import {getAuth, signOut  } from 'firebase/auth';
+  const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function Watering() {
   const navigation = useNavigation();
+
+  const Header = () => {
+    return (
+      <View style={styles.headerContainer}>
+        <TouchableOpacity style={styles.backButton} 
+        onPress={() => navigation.navigate('Home')}
+        >
+          <Text style={styles.backText}>{"< Back"}</Text>
+        </TouchableOpacity>
+        <View style={styles.headerContent}>
+                <Text style={styles.headerText}>Grow orchids with scheduled watering...</Text>
+      <Image
+        source={require("../assets/images/droplet.png")}
+        style={styles.headerIcon}
+      />
+       </View>
+      </View>
+    );
+  };
+
+
   return (
     <View>
               {/* Header Section */}
-              <View style={styles.header}>
-        
-        <View style={styles.headerContainer}>
-          <View>
-            <Text style={styles.title}>Grow orchids scheduled watering...</Text>
-            {/* <Text style={styles.date}>10th Dec 2024</Text> */}
-          </View>
-          <Image
-            source={require("../assets/images/droplet.png")} // Replace with your image path
-            style={styles.headerImage}
-  />
-        </View>
-    </View>
+      <Header/>
 
       <View style={styles.container}>
 
       <View  style={styles.card}>            
             <View style={styles.cardContent}>
               <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('WateringForm')}>
-                <Text style={styles.buttonText}>Watering Schedulrs</Text>
+                <Text style={styles.buttonText}>Watering Schedules</Text>
               </TouchableOpacity>
               <View style={styles.subCardContent}>
               <Image source={require("../assets/images/watering-can.png")} style={styles.cardImage} />
@@ -104,12 +110,50 @@ const styles = StyleSheet.create({
       color: "#FFFFFF",
     },
     headerContainer: {
-      marginTop:60,
-      flexDirection: "row", // Align items horizontally
-      alignItems: "center", // Align items vertically
-      justifyContent: "space-between", // Space between title/date and image
-      // borderWidth:2,
-      width: "100%",
+      padding: 16,
+      backgroundColor: '#096c3a',
+      // borderRadius: 8,
+      alignItems: 'center',
+      marginBottom: 16,
+      borderBottomEndRadius:20,
+      borderBottomStartRadius:20,
+      height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
+      // paddingHorizontal: 16,
+      paddingTop: 16,
+      justifyContent:"flex-end",
+      // borderWidth:1,
+  
+    },
+    headerContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      // borderWidth:1,
+      width:"93%",
+    },
+    headerText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#fff',
+      flex: 1,
+      // borderWidth:1,
+    },
+    headerIcon: {
+      width: 63,
+      height: 63,
+      // borderWidth:1,
+    },
+    backButton: {
+      position: 'absolute',
+      top: 50, // Adjust as needed
+      left: 29, // Adjust as needed
+      zIndex: 10,
+      // borderWidth:1,
+    },
+    backText: {
+      fontSize: 16,
+      color: '#fff',
+      fontWeight: 'bold',
     },
     careSection: {
       flexDirection: "row",

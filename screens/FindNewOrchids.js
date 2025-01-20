@@ -11,11 +11,13 @@ import {
     Platform,
     SafeAreaView,
     Dimensions,
+    ToastAndroid,
     ImageBackground,
     TouchableOpacity,
     TextInput,
     FlatList ,
   } from "react-native";
+  import { useNavigation } from "@react-navigation/native";
   import React, { useState, useEffect } from "react";
   import { collection, addDoc } from 'firebase/firestore';
   import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -29,6 +31,7 @@ export default function FindNewOrchids() {
     const [user, setUser] = useState();
     const [uid,setUid] = useState();
     const auths = getAuth();
+    const navigation = useNavigation();
 
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (authUser) => {
@@ -61,9 +64,14 @@ export default function FindNewOrchids() {
         await addDoc(collectionRef, {
           days: daysData,
           avgResults: avgResultsData,
+          email: auth.currentUser.email,
           createdAt: new Date().toISOString(),
-          email: auth.currentUser.email
         });
+        ToastAndroid.showWithGravity(
+          'Data stored successfully in Firestore!',
+          ToastAndroid.SHORT,
+          ToastAndroid.BOTTOM,
+        );
         console.log('Data successfully saved to Firestore!');
       } catch (error) {
         console.error('Error saving data to Firestore:', error);
@@ -72,28 +80,39 @@ export default function FindNewOrchids() {
 
     
     const Header = () => {
-        return (
-          <View style={styles.headerContainer}>
-            <View style={styles.headerContent}>
-                    <Text style={styles.headerText}>Find New Orchid species</Text>
-          <Image
-            source={require("../assets/images/droplet.png")}
-            style={styles.headerIcon}
-          />
-           </View>
-          </View>
-        );
-      };
+      return (
+        <View style={styles.headerContainer}>
+          <TouchableOpacity style={styles.backButton} 
+          onPress={() => navigation.navigate('FindHome')}
+          >
+            <Text style={styles.backText}>{"< Back"}</Text>
+          </TouchableOpacity>
+          <View style={styles.headerContent}>
+                  <Text style={styles.headerText}>Find new orchid species...</Text>
+        <Image
+          source={require("../assets/images/document.png")}
+          style={styles.headerIcon}
+        />
+         </View>
+        </View>
+      );
+    };
 
       const HeadCard = () => {
         return (
           <View style={styles.headCardContainer}>
             <View style={styles.headCardContent}>
 
-            <TouchableOpacity style={styles.PastRecordbutton} onPress={() => navigation.navigate('WateringHistoryList')}>
-                <Text style={styles.buttonText}>Find New +</Text>
-              </TouchableOpacity>
+            <View style={styles.cardsContainer}>
 
+                <View style={styles.greenCardContainer}>
+                    <View style={styles.greenCardContent}>
+                    <Image source={require("../assets/images/notification.png")}  style={styles.greenCardHeaderIcon} />
+                        <Text style={styles.greenCardHeaderText}>Capturing or uploading clear identical images will ensure a high level of accuracy.</Text>                
+                </View>           
+                </View>       
+
+                </View>
            </View>
           </View>
         );
@@ -148,7 +167,7 @@ export default function FindNewOrchids() {
         
         <View style={styles.footerContainer}>
           <View style={styles.footerCard}>
-            <Text style={styles.footerText}>Additional Information</Text>
+            {/* <Text style={styles.footerText}>Additional Information</Text> */}
             <View style={styles.footerDataContainer}>           
               <Text style={styles.footerLabel}>Average Humidity :</Text>
               <Text style={styles.footerResult}>  {avgResultsData.average_humidity}</Text>
@@ -163,6 +182,9 @@ export default function FindNewOrchids() {
               <Text style={styles.footerLabel}>Average Light        :</Text>
               <Text style={styles.footerResult}>  {avgResultsData.average_Light}</Text>
           </View>
+          <Text style={styles.recommendLabel}>We recommend   </Text>
+          <Text style={styles.recommendResult}>{avgResultsData.recommend}</Text>
+
 
             <TouchableOpacity style={styles.footerButton} onPress={saveToFirebase}>
               <Text style={styles.buttonText}>Add Record</Text>
@@ -197,12 +219,12 @@ const styles = StyleSheet.create({
     safeArea: {
       flex: 1,
       backgroundColor: '#dfe6e3',
-      borderWidth:2,
+      // borderWidth:2,
     },
     container: {
       flex: 1,
       flexGrow: 1,
-      borderWidth:2,
+      // borderWidth:2,
     },
     scrollContainer: {
       // flexGrow: 1,
@@ -215,41 +237,58 @@ const styles = StyleSheet.create({
       backgroundColor: '#096c3a',
       // borderRadius: 8,
       alignItems: 'center',
-      marginBottom: -10,
-      borderBottomEndRadius:40,
-      borderBottomStartRadius:40,
+      marginBottom: 16,
+      borderBottomEndRadius:20,
+      borderBottomStartRadius:20,
       height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
-      paddingHorizontal: 16,
+      // paddingHorizontal: 16,
       paddingTop: 16,
       justifyContent:"flex-end",
-      zIndex: 5,
+      // borderWidth:1,
+      zIndex: 5
+
+  
     },
-    headCardContainer: {
-        // flex: 1,
-        backgroundColor: '#ffffff',
-        padding: 16,
-        marginBottom:20,
-        zIndex: 4
-        
-      },
     headerContent: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
-      // borderWidth:3,
+      justifyContent: 'space-around',
+      // borderWidth:1,
+      width:"93%",
     },
     headerText: {
       fontSize: 18,
       fontWeight: 'bold',
       color: '#fff',
       flex: 1,
-      // borderWidth:3,
+      // borderWidth:1,
     },
     headerIcon: {
-      width: 80,
-      height: 80,
-      // borderWidth:3,
+      width: 63,
+      height: 63,
+      // borderWidth:1,
     },
+    backButton: {
+      position: 'absolute',
+      top: 50, // Adjust as needed
+      left: 29, // Adjust as needed
+      zIndex: 10,
+      // borderWidth:1,
+    },
+    backText: {
+      fontSize: 16,
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    headCardContainer: {
+        // flex: 1,
+        backgroundColor: '#ffffff',
+        padding: 16,
+        marginTop:-20,
+        marginBottom:20,
+        zIndex: 4
+        
+      },
     PastRecordbutton: {
         backgroundColor: "#21130d",
         borderRadius: 30,
@@ -271,7 +310,7 @@ const styles = StyleSheet.create({
         // padding: 16,
       },
       DaycardContainer: {
-        borderWidth:2,
+        // borderWidth:2,
         borderColor:"red",
         backgroundColor: '#fff',
         borderRadius: 8,
@@ -418,17 +457,18 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         marginHorizontal: 26,
-        borderWidth:3
+        // borderWidth:3
       },
 
       footerContainer: {
         padding: 16,
         alignItems: 'center',
-        borderWidth:1,
+        // borderWidth:1,
       },
       footerCard: {
         backgroundColor: '#fff',
         borderRadius: 8,
+        // borderWidth:5,
         padding: 16,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -465,21 +505,78 @@ const styles = StyleSheet.create({
         // justifyContent: 'space-between',
       },
       footerLabel: {
-        // fontSize: 16,
-        // marginBottom: 5,
         color: "#333",
-        // borderWidth:1,
-        // width: "14%", 
-        // marginTop:7,
       },
       footerResult: {
-        // fontSize: 16,
-        // marginBottom: 5,
         color: "#333",
-        // borderWidth:1,
-        // width: "14%", 
-        // marginTop:7,
       },
+      recommendLabel: {
+        color: "#333",
+        // width:"100%",
+        marginTop:20,
+        fontWeight:"bold",
+        // borderWidth:1,
+      },
+      recommendResult: {
+        color: "#14b464",
+        fontWeight:"bold",
+        // borderWidth:1,
+        marginTop:5,
+        fontSize: 20,
+      },
+      cardsContainer: {
+        padding: 10,
+  
+        // borderRadius: 8,
+        alignItems: 'center',
+        // marginBottom: 16,
+  
+        // height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
+        // paddingHorizontal: 16,
+        // paddingTop: 16,
+        // justifyContent:"flex-end",
+        // borderWidth:3,
+    
+      },
+      greenCardContainer: {
+        padding: 16,
+        backgroundColor: '#096c3a',
+        // borderRadius: 8,
+        alignItems: 'center',
+        // marginBottom: 16,
+        borderRadius: 20,
+        width:"95%",
+        // borderBottomEndRadius:40,
+        // borderBottomStartRadius:40,
+        // height: SCREEN_HEIGHT * 0.1, // 30% of the screen height
+        paddingHorizontal: 27,
+        // paddingTop: 16,
+        // justifyContent:"flex-end",
+        // borderWidth:3,
+    
+      },
+      greenCardContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        // borderWidth:3,
+      },
+      greenCardHeaderText: {
+        fontSize: 13,
+        // fontWeight: 'bold',
+        color: '#fff',
+        padding:3,
+        // borderWidth:1,
+        width:"89%"
+        
+      },
+      greenCardHeaderIcon: {
+        width: 55,
+        height: 55,
+        // marginHorizontal:5,
+        // borderWidth:1,
+      },
+  
 
   });
   

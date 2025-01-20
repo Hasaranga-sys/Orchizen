@@ -9,13 +9,14 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     ScrollView,
-    ImageBackground,
+    Dimensions,
     TextInput,
   } from "react-native";
   // import React, { useState, useEffect } from "react";
   import { useNavigation } from "@react-navigation/native";
   import { auth } from '../firebase/firebase-config';
   import {getAuth, signOut  } from 'firebase/auth';
+  const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
   export default function Home() {
     const navigation = useNavigation();
@@ -33,13 +34,66 @@ import {
       // Add your logout logic here
     };
 
+    const Header = () => {
+      const today = new Date();
+
+      // Format the date
+      const day = today.getDate();
+      const month = today.toLocaleString("default", { month: "short" });
+      const year = today.getFullYear();
+    
+      // Add suffix to the day
+      const getDayWithSuffix = (day) => {
+        if (day % 10 === 1 && day !== 11) return `${day}st`;
+        if (day % 10 === 2 && day !== 12) return `${day}nd`;
+        if (day % 10 === 3 && day !== 13) return `${day}rd`;
+        return `${day}th`;
+      };
+      const formattedDate = `${getDayWithSuffix(day)} ${month} ${year}`;
+      return (
+        <View style={styles.headerContainer}>
+          <TouchableOpacity style={styles.backButton} 
+          onPress={() => navigation.navigate('Watering')}
+          >
+            {/* <Text style={styles.backText}>{"< Back"}</Text> */}
+          </TouchableOpacity>
+          <View style={styles.headerContent}>
+                  <Text style={styles.headerText}>OrchiZen</Text>
+        <Image
+          source={require("../assets/images/homeLogo.png")}
+          style={styles.headerIcon}
+        />
+         </View>
+          <Text style={styles.backText}>{formattedDate}</Text>
+        </View>
+      );
+    };
+
+    const HeadCard = () => {
+      return (
+        <View style={styles.headCardContainer}>
+            <View style={styles.cardsContainer}>
+
+            <View style={styles.greenCardContainer}>
+                <View style={styles.greenCardContent}>
+                <Text style={styles.greenCardHeaderText}>Best Orchids Care ...</Text>   
+                <Image source={require("../assets/images/pot.png")}  style={styles.greenCardHeaderIcon} />             
+            </View>           
+            </View>       
+
+            </View>
+        </View>
+      );
+    };
+
       
     return (
+      <View>
       <ScrollView >
 
       
       {/* Header Section */}
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         
           <View style={styles.headerContainer}>
             <View>
@@ -51,16 +105,11 @@ import {
       style={styles.headerImage}
     />
           </View>
-      </View>
+      </View> */}
+      <Header/>
+      <HeadCard />
       <View style={styles.container}>
-      {/* Best Orchid Care Section */}
-      <View style={styles.careSection}>
-        <Text style={styles.careText}>Best Orchids Care...</Text>
-        <Image
-        //   source={require("./assets/plant.png")} // Replace with your plant image
-          style={styles.careImage}
-        />
-      </View>
+
 
       {/* Explore Orchid Types Button */}
       <TouchableOpacity style={styles.button}>
@@ -84,6 +133,7 @@ import {
       </ScrollView>
     </View>
     </ScrollView>
+    </View>
       
     )
   }
@@ -114,41 +164,119 @@ import {
       backgroundColor: "#F5F5F5",
       padding: 20,
     },
-    header: {
-      alignItems: "center",
-      borderBottomEndRadius: 20,
-      borderBottomStartRadius: 20,
-      height: "23%",
-      marginBottom: 20,
-      backgroundColor: "#2e7d32",
-      justifyContent: "center", // Center content vertically
-      paddingHorizontal: 20,    // Add horizontal padding
-    },
-    title: {
-      fontSize: 24,
-      // borderWidth:2,
-      fontWeight: "bold",
-      color: "#F5F5F5",
-      marginBottom: 5, // Space between title and date
-    },
-    headerImage: {
-      width: 50, // Image width
-      height: 50, // Image height
-      resizeMode: "contain", // Maintain image aspect ratio
-    },
-    
-    date: {
-      fontSize: 16,
-      color: "#FFFFFF",
-    },
     headerContainer: {
-      marginTop:60,
-      flexDirection: "row", // Align items horizontally
-      alignItems: "center", // Align items vertically
-      justifyContent: "space-between", // Space between title/date and image
-      // borderWidth:2,
-      width: "100%",
+      padding: 16,
+      backgroundColor: '#096c3a',
+      // borderRadius: 8,
+      alignItems: 'center',
+      marginBottom: 16,
+      borderBottomEndRadius:20,
+      borderBottomStartRadius:20,
+      height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
+      // paddingHorizontal: 16,
+      paddingTop: 16,
+      justifyContent:"flex-end",
+      // borderWidth:1,
+      zIndex: 5,
+  
     },
+    headerContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      // borderWidth:1,
+      width:"93%",
+    },
+    headerText: {
+      fontSize: 32,
+      fontWeight: 'bold',
+      color: '#fff',
+      flex: 1,
+      // borderWidth:1,
+    },
+    headerIcon: {
+      width: 63,
+      height: 63,
+      // borderWidth:1,
+    },
+    backButton: {
+      position: 'absolute',
+      top: 50, // Adjust as needed
+      left: 29, // Adjust as needed
+      zIndex: 10,
+      // borderWidth:1,
+    },
+    backText: {
+      fontSize: 16,
+      color: '#fff',
+      fontWeight: 'bold',
+      marginLeft:20,
+      alignSelf :"flex-start",
+    },
+    headCardContainer: {
+      flex: 1,
+      backgroundColor: '#ffffff',
+      padding: 16,
+      marginBottom:30,
+      zIndex: 4,
+      marginTop:-30,
+      
+    },
+    cardsContainer: {
+      padding: 9,
+
+      // borderRadius: 8,
+      alignItems: 'center',
+      marginBottom: 14,
+      marginTop:14,
+
+      // height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
+      // paddingHorizontal: 16,
+      // paddingTop: 16,
+      // justifyContent:"flex-end",
+      // borderWidth:3,
+  
+    },
+
+  greenCardContainer: {
+      padding: 16,
+      backgroundColor: '#096c3a',
+      // borderRadius: 8,
+      alignItems: 'center',
+      // marginBottom: 16,
+      borderRadius: 20,
+      width:"100%",
+      // borderBottomEndRadius:40,
+      // borderBottomStartRadius:40,
+      // height: SCREEN_HEIGHT * 0.1, // 30% of the screen height
+      paddingHorizontal: 27,
+      // paddingTop: 16,
+      // justifyContent:"flex-end",
+      // borderWidth:3,
+  
+    },
+    greenCardContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      // borderWidth:3,
+    },
+    greenCardHeaderText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#fff',
+      padding:3,
+      // borderWidth:1,
+      width:"89%"
+      
+    },
+    greenCardHeaderIcon: {
+      width: 55,
+      height: 55,
+      // marginHorizontal:5,
+      // borderWidth:1,
+    },
+
     careSection: {
       flexDirection: "row",
       alignItems: "center",
@@ -170,9 +298,11 @@ import {
     button: {
       backgroundColor: "#2E7D32",
       borderRadius: 10,
-      paddingVertical: 10,
+      paddingVertical: 6,
       alignItems: "center",
       marginBottom: 20,
+      marginTop:-56,
+      zIndex: 4,
     },
     buttonText: {
       color: "#FFFFFF",

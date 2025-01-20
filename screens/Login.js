@@ -32,11 +32,12 @@ export default function Login() {
 
   return (
     <ScrollView style={styles.main_container}>
-    <View>
-    <View style={{ marginBottom: 50 }}>
+    <View style={styles.sub_container} >
+      <View style={{ marginBottom: 50 }}>
    
 
-   <Text style={styles.header_text}>Hello Welcome Back!!</Text>
+   <Text style={styles.header_text}>Sign In..</Text>
+   <Text style={styles.sub_header_text}>Let's sign yo in to Orchizen</Text>
   
    {/* <ImageBackground style={{height:200, width:200, left:80,top:20}} source={require("../assets/box.png")}></ImageBackground> */}
  </View>
@@ -63,25 +64,25 @@ export default function Login() {
          onPress={handleSubmit}
          >
              <View style={styles.button}>
-                <Text style={styles.buttonText}>Log In</Text>
+                <Text style={styles.buttonText}>Sign In</Text>
              </View>
         </TouchableOpacity>
         <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
-            marginTop: 30,
+            marginTop: 0,
           }}
         >
           <Text
             style={{
-              color: "#130160",
-              fontSize: 17,
+              color: "#23ac78",
+              fontSize: 15,
               textAlign: "center",
               marginRight: 7,
             }}
           >
-            New to app Register 
+            Don't have an account?
           </Text>
         
 
@@ -92,11 +93,11 @@ export default function Login() {
               style={{
                 fontWeight: "bold",
                 opacity: 0.6,
-                fontSize: 17,
-                color: "#1565C0",
+                fontSize: 15,
+                color: "#23ac78",
               }}
             >
-             Here!!
+             Sign Up
             </Text>
             
           </TouchableOpacity>
@@ -110,48 +111,68 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
+  
     main_container: {
+      // flex: 1,
+      // top: 50,
+      // margin: 15,
+      backgroundColor:"white",
+      // borderWidth:2,
+    },      
+    sub_container: {
       flex: 1,
       top: 50,
       margin: 15,
+      // borderWidth:2,
     },
+
     header_text: {
       fontSize: 30,
       fontWeight: "700",
-      color: "#130160",
-      textAlign: "center",
+      color: "#23ac78",
+      marginLeft:"5%",
+      // borderWidth:1,
+    },
+    sub_header_text: {
+      // fontSize: 30,
+      fontWeight: "700",
+      color: "#848484",
+      marginLeft:"5%",
+      // borderWidth:1,
     },
     input_text: {
       fontSize: 17,
-      borderColor: "#67afff",
-      borderWidth: 1.5,
+      // borderColor: "#67afff",
+      backgroundColor:"#ededed",
+      // borderWidth: 1.5,
       borderRadius: 10,
-      padding: 10,
+      // padding: 10,
       paddingLeft: 10,
-      marginVertical: 5,
+      // marginVertical: 5,
     },
     input_lable: {
-      color: "#0D0140",
+      color: "#23ac78",
       marginVertical: 5,
       fontWeight: "bold",
-      fontSize: 20,
+      // fontSize: 1,
+      // borderWidth:1,
     },
     cardh: {
       overflow: "hidden",    
       justifyContent: 'center',
       width: "100%", // Set your desired width
   
-      backgroundColor: '#e1e4ed', // Set your desired background color
+      // backgroundColor: '#e1e4ed', // Set your desired background color
       padding: 16,
       borderRadius:25,
     
     },
     button: {
-      marginTop:15,
+      marginTop:120,
       backgroundColor: '#4CAF50', // Adjust background color
       borderRadius: 25, // Adjust curvature
-      paddingHorizontal: 20,
-      paddingVertical: 15,
+      // paddingHorizontal: 20,
+      paddingVertical: 12,
       alignItems: 'center',
       justifyContent: 'center',
     },

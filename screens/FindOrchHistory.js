@@ -26,6 +26,7 @@ const FindOrchHistory = ({route}) => {
     const [daysData, setDaysData] = useState([]);
     const [avgResultsData, setAvgResultData] = useState('');
     const {selectedItem} = route.params;
+    const navigation = useNavigation();
     // const { clz, confidence, classs } = selectedItem.results;
 
     console.log("SCSxxx",selectedItem);
@@ -40,13 +41,18 @@ const FindOrchHistory = ({route}) => {
 
 
     
-const Header = () => {
+      const Header = () => {
         return (
           <View style={styles.headerContainer}>
+            <TouchableOpacity style={styles.backButton} 
+            onPress={() => navigation.navigate('FindHome')}
+            >
+              <Text style={styles.backText}>{"< Back"}</Text>
+            </TouchableOpacity>
             <View style={styles.headerContent}>
-                    <Text style={styles.headerText}>Emergency watering schedule...</Text>
+                    <Text style={styles.headerText}>Treat orchids with grow lights...</Text>
           <Image
-            source={require("../assets/images/droplet.png")}
+            source={require("../assets/images/eco-light.png")}
             style={styles.headerIcon}
           />
            </View>
@@ -136,6 +142,9 @@ const Header = () => {
               <Text style={styles.footerResult}>  {avgResultsData.average_Light}</Text>
           </View>
 
+          <Text style={styles.recommendLabel}>We recommend   </Text>
+          <Text style={styles.recommendResult}>{avgResultsData.recommend}</Text>
+
           </View>
         </View>
       );
@@ -167,12 +176,12 @@ const styles = StyleSheet.create({
     safeArea: {
       flex: 1,
       backgroundColor: '#dfe6e3',
-      borderWidth:2,
+      // borderWidth:2,
     },
     container: {
       flex: 1,
       flexGrow: 1,
-      borderWidth:2,
+      // borderWidth:2,
     },
     scrollContainer: {
       // flexGrow: 1,
@@ -194,31 +203,51 @@ const styles = StyleSheet.create({
         justifyContent:"flex-end",
         zIndex: 5,
       },
-      headCardContainer: {
-          // flex: 1,
-          backgroundColor: '#ffffff',
-          padding: 16,
-          marginBottom:20,
-          zIndex: 4
-          
-        },
+      headerContainer: {
+        padding: 16,
+        backgroundColor: '#096c3a',
+        // borderRadius: 8,
+        alignItems: 'center',
+        marginBottom: 16,
+        borderBottomEndRadius:20,
+        borderBottomStartRadius:20,
+        height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
+        // paddingHorizontal: 16,
+        paddingTop: 16,
+        justifyContent:"flex-end",
+        // borderWidth:1,
+    
+      },
       headerContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        // borderWidth:3,
+        justifyContent: 'space-around',
+        // borderWidth:1,
+        width:"93%",
       },
       headerText: {
         fontSize: 18,
         fontWeight: 'bold',
         color: '#fff',
         flex: 1,
-        // borderWidth:3,
+        // borderWidth:1,
       },
       headerIcon: {
-        width: 80,
-        height: 80,
-        // borderWidth:3,
+        width: 63,
+        height: 63,
+        // borderWidth:1,
+      },
+      backButton: {
+        position: 'absolute',
+        top: 50, // Adjust as needed
+        left: 29, // Adjust as needed
+        zIndex: 10,
+        // borderWidth:1,
+      },
+      backText: {
+        fontSize: 16,
+        color: '#fff',
+        fontWeight: 'bold',
       },
       PastRecordbutton: {
           backgroundColor: "#21130d",
@@ -241,7 +270,7 @@ const styles = StyleSheet.create({
           // padding: 16,
         },
         DaycardContainer: {
-          borderWidth:2,
+          // borderWidth:2,
           borderColor:"red",
           backgroundColor: '#fff',
           borderRadius: 8,
@@ -388,13 +417,13 @@ const styles = StyleSheet.create({
           shadowRadius: 4,
           elevation: 5,
           marginHorizontal: 26,
-          borderWidth:3
+          // borderWidth:3
         },
   
         footerContainer: {
           padding: 16,
           alignItems: 'center',
-          borderWidth:1,
+          // borderWidth:1,
         },
         footerCard: {
           backgroundColor: '#fff',
@@ -450,6 +479,21 @@ const styles = StyleSheet.create({
           // width: "14%", 
           // marginTop:7,
         },
+        recommendLabel: {
+          color: "#333",
+          // width:"100%",
+          marginTop:20,
+          fontWeight:"bold",
+          // borderWidth:1,
+        },
+        recommendResult: {
+          color: "#14b464",
+          fontWeight:"bold",
+          // borderWidth:1,
+          marginTop:5,
+          fontSize: 20,
+        },
+  
   
   });
 

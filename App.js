@@ -20,6 +20,9 @@ import WateringHistoryList from './screens/WateringHistoryList';
 import FindHome from './screens/FindHome';
 import FindNewOrchids from './screens/FindNewOrchids';
 import FindOrchHistory from './screens/FindOrchHistory';
+import UvLightForm from './screens/UvLightForm';
+import GrowLight from './screens/GrowLight';
+import Profile from './screens/Profile';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -101,16 +104,14 @@ const BottomTabs = () => {
               <Image
                 source={
                   focused
-                    ? require("./assets/images/bucketActive.png") // Custom active icon
-                    : require("./assets/images/bucket.png")       // Custom inactive icon
+                    ? require("./assets/images/profileActive.png") // Custom active icon
+                    : require("./assets/images/profile.png")       // Custom inactive icon
                 }
                 style={{ width: size, height: size }}
                 resizeMode="contain"
               />
             );
           }
-
-
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#2E7D32",
@@ -121,9 +122,9 @@ const BottomTabs = () => {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Find" component={FindStack} />
       <Tab.Screen name="Watering" component={WateringStack} />
-      <Tab.Screen name="Disease" component={DiseaseHome} />
+      <Tab.Screen name="Disease" component={DiseaseStack} />
       <Tab.Screen name="Fertilizer" component={Fertilizer} />
-      <Tab.Screen name="Profile" component={Watering} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 };
@@ -149,10 +150,21 @@ const FindStack = () => {
   );
 };
 
+const DiseaseStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="DiseaseHome" component={DiseaseHome} />
+       <Stack.Screen name="UvLightForm" component={UvLightForm} />
+      <Stack.Screen name="GrowLight" component={GrowLight} />
+
+    </Stack.Navigator>
+  );
+};
+
 
 export default function App() {
   const {user} = useAuth();
-if(user){
+// if(user){
   return (
     //new creation
     <View 
@@ -161,7 +173,8 @@ if(user){
       flex: 1,
     }}>
      
-        <NavigationContainer>
+        <NavigationContainer>{user ? (
+        
         <Stack.Navigator>          
         <Stack.Screen
               name="HomeTabs"
@@ -173,45 +186,11 @@ if(user){
                 headerTitleAlign: "center",
                 headerShown: false, // Hide Stack header
               }}
-            />
-          {/* <Stack.Screen
-            name="WateringForm"  component={WateringForm}
-               options={{    title: "WateringForm", headerStyle: { backgroundColor: "#ccc9e6" }, headerShadowVisible: false,  headerTitleAlign: "center", headerShown: false,  }} /> */}
-          
-          {/* <Stack.Screen
-            name="EmergencyWaterForm"  component={EmergencyWaterForm}
-               options={{    title: "EmergencyWaterForm", headerStyle: { backgroundColor: "#ccc9e6" }, headerShadowVisible: false,  headerTitleAlign: "center", headerShown: false,  }} />
-           */}
-          <Stack.Screen
-              name="DiseaseHome"  component={DiseaseHome}
-               options={{    title: "DiseaseHome", headerStyle: { backgroundColor: "#ccc9e6" }, headerShadowVisible: false,  headerTitleAlign: "center", headerShown: false,  }} />
-{/* 
-            <Stack.Screen 
-                 name="WateringHistoryList"  component={WateringHistoryList}
-               options={{    title: "WateringHistoryList", headerStyle: { backgroundColor: "#ccc9e6" }, headerShadowVisible: false,  headerTitleAlign: "center", headerShown: false,  }} />
-           */}
-          
-          
-          
-          
-          
-      
+            />    
         </Stack.Navigator>
-      </NavigationContainer>
-     
-
-    </View>
-  );
-
-}else{
-  return ( 
-    <View 
-      style={{
-      marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      flex: 1,
-    }}>        
-        <NavigationContainer>
-        <Stack.Navigator>
+        
+        ) : (
+          <Stack.Navigator>
           {/* <Stack.Screen name="LandingPage" component={LandingPage}  
           options={{ title: "LandingPage",  headerStyle: { backgroundColor: "black" },  headerShadowVisible: false, headerTitleAlign: "center", headerShown: false,}} /> */}
           <Stack.Screen
@@ -225,10 +204,39 @@ if(user){
                 options={{ title: "Signup",  headerStyle: { backgroundColor: "black" },headerShadowVisible: false,headerTitleAlign: "center", headerShown: false,  }}    />
           
        </Stack.Navigator>
-      </NavigationContainer>               
+        ) }
+      </NavigationContainer>
+     
+
     </View>
-    );
-}
+  );
+
+// }else{
+//   return ( 
+//     <View 
+//       style={{
+//       marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+//       flex: 1,
+//     }}>        
+//         <NavigationContainer>
+//         <Stack.Navigator>
+//           {/* <Stack.Screen name="LandingPage" component={LandingPage}  
+//           options={{ title: "LandingPage",  headerStyle: { backgroundColor: "black" },  headerShadowVisible: false, headerTitleAlign: "center", headerShown: false,}} /> */}
+//           <Stack.Screen
+//             name="Login"
+//             component={Login}
+//             options={{ title: "Login",  headerStyle: { backgroundColor: "black" },headerShadowVisible: false,headerTitleAlign: "center", headerShown: false,  }}    />
+  
+//       <Stack.Screen
+//                 name="Signup"
+//                 component={Signup}
+//                 options={{ title: "Signup",  headerStyle: { backgroundColor: "black" },headerShadowVisible: false,headerTitleAlign: "center", headerShown: false,  }}    />
+          
+//        </Stack.Navigator>
+//       </NavigationContainer>               
+//     </View>
+//     );
+// }
 }
 
 const styles = StyleSheet.create({

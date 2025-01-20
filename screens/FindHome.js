@@ -138,19 +138,25 @@ export default function FindHome() {
     }
   }
 
-    const Header = () => {
-        return (
-          <View style={styles.headerContainer}>
-            <View style={styles.headerContent}>
-                    <Text style={styles.headerText}>Select best orchid species..</Text>
-          <Image
-            source={require("../assets/images/droplet.png")}
-            style={styles.headerIcon}
-          />
-           </View>
-          </View>
-        );
-      };
+  const Header = () => {
+    return (
+      <View style={styles.headerContainer}>
+        <TouchableOpacity style={styles.backButton} 
+        onPress={() => navigation.navigate('Home')}
+        >
+          <Text style={styles.backText}>{"< Back"}</Text>
+        </TouchableOpacity>
+        <View style={styles.headerContent}>
+                <Text style={styles.headerText}>Select the best orchid species...</Text>
+      <Image
+        source={require("../assets/images/document.png")}
+        style={styles.headerIcon}
+      />
+       </View>
+      </View>
+    );
+  };
+
 
       const HeadCard = () => {
         return (
@@ -185,30 +191,39 @@ export default function FindHome() {
             (<View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color="#096c3a" />
               <Text>Loading data...</Text>
-            </View>) :
+            </View>) 
+            : data ==null || data.length ===0 ? 
+            (<View style={styles.containerImage}>
+              <Image source={require("../assets/images/empty-box.png")} style={styles.noDataIcon}/>
+             <Text style={styles.dataCheckText}>  No data Available !!!</Text>
+             </View>) : 
             
             data.map((item) => (
               <View key={item.id} style={styles.recordContainer}>
                 <Text style={styles.recordText}>
-                  Created Date: {new Date(item.createdDate).toDateString()}
+                  {new Date(item.createdDate).toISOString().split('T')[0].replace(/-/g, '.')}
                 </Text>
-                {/* <Text style={styles.recordText}>
-                  Average Light: {item.avgResults.average_Light}
-                </Text>
-                <Text style={styles.recordText}>
+                
+
+                <View style={styles.viewButton} >
+                <Text style={styles.recordText2}>{item.avgResults.recommend}</Text>
+                <TouchableOpacity  
+                  onPress={() =>
+                    navigation.navigate("FindOrchHistory", { selectedItem: item })
+                  }
+                >
+                  <Text style={styles.resultbuttonText}>{"See more >>"}</Text>
+                </TouchableOpacity>
+
+
+                </View>
+
+                 {/*<Text style={styles.recordText}>
                   Average Temperature: {item.avgResults.average_Temp}
                 </Text>
                 <Text style={styles.recordText}>
                   Average Humidity: {item.avgResults.average_humidity}
                 </Text> */}
-                <TouchableOpacity
-                  style={styles.viewButton}
-                  onPress={() =>
-                    navigation.navigate("FindOrchHistory", { selectedItem: item })
-                  }
-                >
-                  <Text style={styles.buttonText}>View Details</Text>
-                </TouchableOpacity>
               </View>
       ))}
     </ScrollView>
@@ -244,14 +259,46 @@ const styles = StyleSheet.create({
       backgroundColor: '#096c3a',
       // borderRadius: 8,
       alignItems: 'center',
-      marginBottom: -20,
-      borderBottomEndRadius:40,
-      borderBottomStartRadius:40,
+      marginBottom: 16,
+      borderBottomEndRadius:20,
+      borderBottomStartRadius:20,
       height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
-      paddingHorizontal: 16,
+      // paddingHorizontal: 16,
       paddingTop: 16,
       justifyContent:"flex-end",
-      zIndex: 5,
+      // borderWidth:1,
+  
+    },
+    headerContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      // borderWidth:1,
+      width:"93%",
+    },
+    headerText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#fff',
+      flex: 1,
+      // borderWidth:1,
+    },
+    headerIcon: {
+      width: 63,
+      height: 63,
+      // borderWidth:1,
+    },
+    backButton: {
+      position: 'absolute',
+      top: 50, // Adjust as needed
+      left: 29, // Adjust as needed
+      zIndex: 10,
+      // borderWidth:1,
+    },
+    backText: {
+      fontSize: 16,
+      color: '#fff',
+      fontWeight: 'bold',
     },
     headCardContainer: {
         flex: 1,
@@ -261,23 +308,10 @@ const styles = StyleSheet.create({
         zIndex: 4
         
       },
-    headerContent: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      borderWidth:3,
-    },
-    headerText: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#fff',
-      flex: 1,
-      borderWidth:3,
-    },
-    headerIcon: {
-      width: 80,
-      height: 80,
-      // borderWidth:3,
+    noDataIcon: {
+      width: 120,
+      height: 120,
+      marginLeft:"3%"
     },
     PastRecordbutton: {
         backgroundColor: "#21130d",
@@ -338,23 +372,36 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#333333",
         marginBottom: 4,
+        fontWeight: "bold",
+        width:"auto"
       },
       loadingContainer: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
       },
+      recordText2: {
+        fontSize: 16,
+        color: "#333333",
+        marginBottom: 4,
+        // borderWidth:3,
+        width:230
+      },
+      
       viewButton: {
-        backgroundColor: "#096c3a",
-        padding: 10,
+        // backgroundColor: "#096c3a",
+        flexDirection: 'row',
         borderRadius: 8,
         alignItems: "center",
         marginTop: 10,
+        // borderWidth:1,
       },
-      buttonText: {
-        color: "#ffffff",
+      resultbuttonText: {
+        // color: "#ffffff",
         fontSize: 14,
-        fontWeight: "bold",
+        // borderWidth:1,
+        width:"90"
+        // fontWeight: "bold",
       },
 
   });

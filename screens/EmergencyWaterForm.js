@@ -50,6 +50,7 @@ export default function EmergencyWaterForm() {
 
     const [selectedFlower, setSelectedFlower] = useState('green orchid');
     const [amount, setAmount] = useState();
+    const navigation = useNavigation();
 
     const handleStart = async () => {
       // Simulate sending data to the backend
@@ -93,10 +94,15 @@ export default function EmergencyWaterForm() {
     const Header = () => {
       return (
         <View style={styles.headerContainer}>
+          <TouchableOpacity style={styles.backButton} 
+          onPress={() => navigation.navigate('DiseaseHome')}
+          >
+            <Text style={styles.backText}>{"< Back"}</Text>
+          </TouchableOpacity>
           <View style={styles.headerContent}>
-                  <Text style={styles.headerText}>Emergency watering schedule...</Text>
+                  <Text style={styles.headerText}>Treat orchids with grow lights...</Text>
         <Image
-          source={require("../assets/images/droplet.png")}
+          source={require("../assets/images/alert.png")}
           style={styles.headerIcon}
         />
          </View>
@@ -161,12 +167,7 @@ export default function EmergencyWaterForm() {
   return (
 
     <View>
-      {/* <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={100} // Adjust based on header height
-      > */}
-        
+       
         <ScrollView
          contentContainerStyle={styles.scrollContainer}
           >
@@ -219,79 +220,9 @@ export default function EmergencyWaterForm() {
             {/* <Text>Card Content</Text> */}
           </View>
         </ScrollView>
-      {/* </KeyboardAvoidingView> */}
+
     </View>
 
-
-
-
-
-
-//  <ScrollView >
-//       <View>
-//     {/* Header Section */}
-//           <View style={styles.header}>
-//           <Text style={styles.title}>Emergency Watering form</Text>
-//           {/* <Text style={styles.date}>10th Dec 2024</Text> */}
-//           </View>
- 
-//           <View style={styles.container}>
-
-
-//            <View style={styles.card}>            
-//                     <View style={styles.cardContent}>
-//                     <Image source={require("../assets/images/orchWall.jpg")} style={styles.cardImage} />                    
-
-//                       <View style={styles.flowerContainer}>
-//                       <Picker style={styles.dropdown} 
-//                               selectedValue={selectedBehavior}
-//                               onValueChange={(itemValue) => setSelectedBehavior(itemValue)}
-//                               mode="dropdown" >
-//                         <Picker.Item style={{fontSize: 10}} label="Select a Flower" value="" />
-
-//                                 {orchid_types.map((behavior, index) => (
-//                                     <Picker.Item style={{fontSize: 10}} key={index} label={behavior} value={behavior} /> 
-//                                     ))}
-
-//                           </Picker>  
-//                       </View>  
-
-//                       <View  style={styles.subCard}>            
-//                       <Image source={require("../assets/images/orchid.png")} style={styles.subCardImage} />
-//                       <Text style={styles.cardDescription}>Enter Water Amount in milimeters and click Start Watering</Text>
-              
-//                         </View>
-
-
-                            
-//                             <View style={styles.datePickerContainer}>
-//                                 <Text style={styles.label}>Amount:</Text>
-                              
-//                                 <TextInput
-//                                     style={styles.input}
-//                                     placeholder="Amount"
-//                                     keyboardType="numeric"
-//                                     value={amount}
-//                                     onChangeText={setAmount}
-//                                     // editable={!isUploading}
-//                                   />
-//                             </View> 
-//                             <TouchableOpacity style={styles.button}  onPress={sendDataToBackend}    disabled={loading}>
-//                                 <Text style={styles.buttonText}> {loading ? "Sending..." : "Start Watering"}</Text>
-//                             </TouchableOpacity>
-
-//                     </View>
-
-                  
-                    
-//             </View>
-
-
-//           </View>
-
-
-//     </View>
-//     </ScrollView>
 
   )
 }
@@ -300,12 +231,12 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: '#dfe6e3',
-    borderWidth:2,
+    // borderWidth:2,
   },
   container: {
     flex: 1,
     flexGrow: 1,
-    borderWidth:2,
+    // borderWidth:2,
   },
   scrollContainer: {
     // flexGrow: 1,
@@ -319,32 +250,45 @@ const styles = StyleSheet.create({
     // borderRadius: 8,
     alignItems: 'center',
     marginBottom: 16,
-    borderBottomEndRadius:40,
-    borderBottomStartRadius:40,
+    borderBottomEndRadius:20,
+    borderBottomStartRadius:20,
     height: SCREEN_HEIGHT * 0.25, // 30% of the screen height
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     paddingTop: 16,
     justifyContent:"flex-end",
-    // borderWidth:3,
+    // borderWidth:1,
 
   },
   headerContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    // borderWidth:3,
+    justifyContent: 'space-around',
+    // borderWidth:1,
+    width:"93%",
   },
   headerText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
     flex: 1,
-    // borderWidth:3,
+    // borderWidth:1,
   },
   headerIcon: {
-    width: 80,
-    height: 80,
-    // borderWidth:3,
+    width: 63,
+    height: 63,
+    // borderWidth:1,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 50, // Adjust as needed
+    left: 29, // Adjust as needed
+    zIndex: 10,
+    // borderWidth:1,
+  },
+  backText: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: 'bold',
   },
   cardContainer: {
     backgroundColor: '#fff',
@@ -356,7 +300,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     marginHorizontal: 26,
-    borderWidth:3
+    // borderWidth:3
   },
   cardImage: {
     width: '100%',
@@ -388,7 +332,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   startButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#096c3a',
     paddingVertical: 12,
     borderRadius: 30,
     alignItems: 'center',
@@ -427,191 +371,4 @@ input: {
 },
 });
 
-
-// const styles = StyleSheet.create({
-//     container: {
-//       flex: 20,
-//     //   backgroundColor: "#F5F5F5",
-//       padding: 20,
-//     },
-//     header: {
-//       alignItems: "center",
-//       borderBottomEndRadius:20,
-//       borderBottomStartRadius:20,
-//       height:200,
-//       marginBottom: 20,
-//       backgroundColor: "#2e7d32",
-//     },
-//     title: {
-//       fontSize: 24,
-//     //   borderWidth:2,
-//       top:100,
-//       width:"60%",
-//       marginRight:"30%",
-//       fontWeight: "bold",
-//       color: "#F5F5F5",
-//     },
-//     date: {
-//         top:100,
-//         marginRight:"58%",
-//       fontSize: 16,
-//       color: "#FFFFFF",
-//     },
-//     careSection: {
-//       flexDirection: "row",
-//       alignItems: "center",
-//       justifyContent: "space-between",
-//       backgroundColor: "#FFFFFF",
-//       borderRadius: 10,
-//       padding: 15,
-//       marginBottom: 20,
-//     },
-//     careText: {
-//       fontSize: 18,
-//       fontWeight: "bold",
-//       color: "#2E7D32",
-//     },
-//     careImage: {
-//       width: 50,
-//       height: 50,
-//     },
-//     button: {
-//       backgroundColor: "#2E7D32",
-//       borderRadius: 10,
-//       paddingVertical: 10,
-//       alignItems: "center",
-//       marginBottom: 20,
-//       alignSelf:"center",
-//       width:"50%",
-//     },
-//     buttonText: {
-//       color: "#FFFFFF",
-//       fontSize: 16,
-//       fontWeight: "bold",
-//     },
-//     card: {
-//       flexDirection: "row",
-//       backgroundColor: "#FFFFFF",
-//       borderRadius: 10,
-//       padding: 10,
-//       marginBottom: 10,
-//       shadowColor: "#000",
-//       shadowOpacity: 0.1,
-//       shadowRadius: 5,
-//       elevation: 3,
-//     },
-//     subCard: {
-//         flexDirection: "row",
-//         backgroundColor: "#2E7D32",
-//         borderRadius: 10,
-//         padding: 10,
-//         marginBottom: 10,
-//         shadowColor: "#000",
-//         shadowOpacity: 0.1,
-//         shadowRadius: 5,
-//         elevation: 3,
-//       },
-//     cardImage: {
-//       width: "80%",
-//       height: "40%",
-//       alignSelf :"center",
-//       borderRadius: 10,
-//       marginRight: 10,
-//     },
-//     subCardImage: {
-//         width: 50,
-//         height: 50,
-//         // borderWidth:2,
-//         alignSelf :"center",
-//         borderRadius: 10,
-//         marginRight: 10,
-//       },
-//     cardContent: {
-//       flex: 1,
-//       padding:7,
-//       justifyContent: "center",
-//     },
-//     subCardContent: {
-//       flexDirection: "row",
-
-//       alignItems: "center",
-//             // borderWidth:2,
-//       // justifyContent: "center",
-//     },
-//     cardTitle: {
-//       fontSize: 16,
-//       fontWeight: "bold",
-//       color: "#2E7D32",
-//     },
-//     cardLink: {
-//       fontSize: 14,
-//       color: "#1E88E5",
-//       fontWeight: "bold",
-//     },
-//     cardDescription: {
-//       flex: 1, // Allow the Text to take remaining space
-//       fontSize: 14,
-//       color: "#ffff",
-//       marginTop: 5,
-//       flexWrap: "wrap", // Ensure text wraps within container
-//     },
-//     datePickerContainer: {
-//         margin : "auto", 
-//         width: "80%",
-//         // borderWidth:2,
-//         marginBottom: 20,
-//         flexDirection :"row",        
-//       },
-//       label: {
-//         // fontSize: 16,
-//         // marginBottom: 5,
-//         color: "#333",
-//         // borderWidth:1,
-//         width: "30%", 
-//         marginTop:7,
-        
-//       },
-//       dateButton: {
-//         // padding: 10,
-//         borderWidth: 1,
-//         borderColor: "#ddd",
-//         borderRadius: 5,
-//         backgroundColor: "#fff",
-//         alignItems: "center",
-//         // borderWidth:2,
-//         width: "50%"
-//       },
-//       flowerContainer: {
-//         // width: "99%",
-//         // borderWidth:2,
-//         marginBottom: 20,
-//         position:"relative",
-//         flexDirection :"row",
-        
-//       },
-//       dropdown: {
-//         position:"relative",
-
-//         borderColor: "#ddd",
-//         // borderRadius: 5,
-//         backgroundColor: "#fff",
-//         // alignItems: "center",
-//         borderWidth:2,
-//         width: "70%",
-//         alignSelf: 'center', // Centers the item horizontally within its parent
-//         marginHorizontal: 'auto'
-//       },
-//       dateText: {
-//         fontSize: 16,
-//         color: "#333",
-//       },
-//       input: {
-//         height: 40,
-//         width:"60%",
-//         borderColor: 'gray',
-//         borderWidth: 1,
-//         marginBottom: 10,
-//         paddingHorizontal: 10,
-//       },
-//   });
 
