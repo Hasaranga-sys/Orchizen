@@ -95,7 +95,7 @@ export default function EmergencyWaterForm() {
       return (
         <View style={styles.headerContainer}>
           <TouchableOpacity style={styles.backButton} 
-          onPress={() => navigation.navigate('DiseaseHome')}
+          onPress={() => navigation.navigate('Watering')}
           >
             <Text style={styles.backText}>{"< Back"}</Text>
           </TouchableOpacity>

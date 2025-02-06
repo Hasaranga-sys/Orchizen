@@ -1,9 +1,11 @@
+import React, { useState, useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect, useNavigation  } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // import React, { useState } from 'react';
 import { StyleSheet, Text, View ,Platform,Image } from 'react-native';
+
 import axios from 'axios';
 import useAuth from './firebase/useAuth';
 import { Ionicons } from "@expo/vector-icons"; // For icons
@@ -48,7 +50,7 @@ const BottomTabs = () => {
               />
             );
           } 
-          else if (route.name === "Find") {
+          else if (route.name === "FindHome") {
             return (
               <Image
                 source={
@@ -74,7 +76,7 @@ const BottomTabs = () => {
               />
             );
           } 
-          else if (route.name === "Disease") {
+          else if (route.name === "DiseaseHome") {
             return (
               <Image
                 source={
@@ -119,20 +121,32 @@ const BottomTabs = () => {
         headerShown: false, // Hide header for bottom tabs
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Find" component={FindStack} />
-      <Tab.Screen name="Watering" component={WateringStack} />
-      <Tab.Screen name="Disease" component={DiseaseStack} />
-      <Tab.Screen name="Fertilizer" component={Fertilizer} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Home"  component={Home} />
+      <Tab.Screen name="FindHome" options={{ title: "Find" }} component={FindStack} />
+      <Tab.Screen name="Watering"  component={WateringStack} />
+      <Tab.Screen name="DiseaseHome" options={{ title: "Disease" }}  component={DiseaseStack} />
+      <Tab.Screen name="Fertilizer"  component={Fertilizer} />
+      <Tab.Screen name="Profile"  component={Profile} />
     </Tab.Navigator>
   );
 };
 
 const WateringStack = () => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
+      e.preventDefault(); // Prevent default navigation behavior
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Watering" }],
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Watering" component={Watering} />
+      <Stack.Screen name="Watering"  component={Watering}  />
       <Stack.Screen name="WateringForm" component={WateringForm} />
       <Stack.Screen name="EmergencyWaterForm" component={EmergencyWaterForm} />
       <Stack.Screen name="WateringHistoryList" component={WateringHistoryList} />
@@ -140,6 +154,18 @@ const WateringStack = () => {
   );
 };
 const FindStack = () => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
+      e.preventDefault(); // Prevent default navigation behavior
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "FindHome" }],
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="FindHome" component={FindHome} />
@@ -151,6 +177,18 @@ const FindStack = () => {
 };
 
 const DiseaseStack = () => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
+      e.preventDefault(); // Prevent default navigation behavior
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "DiseaseHome" }],
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="DiseaseHome" component={DiseaseHome} />

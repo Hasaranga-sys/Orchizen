@@ -69,9 +69,9 @@ export default function Watering() {
         </View>
         
       </View>
-      <TouchableOpacity style={styles.PastRecordbutton} onPress={() => navigation.navigate('WateringHistoryList')}>
+      {/* <TouchableOpacity style={styles.PastRecordbutton} onPress={() => navigation.navigate('WateringHistoryList')}>
                 <Text style={styles.buttonText}>Past Records</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
     </View>
   )
