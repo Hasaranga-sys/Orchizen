@@ -11,11 +11,37 @@ import {
   } from "react-native";
   import {auth} from '../firebase/firebase-config';
   import { useNavigation } from "@react-navigation/native";
-  import { signInWithEmailAndPassword } from 'firebase/auth';
-export default function Login() {
+  import { signInWithEmailAndPassword,getAuth,signInWithCredential,GoogleAuthProvider  } from 'firebase/auth';
+  import * as WebBrowser from "expo-web-browser";
+  import * as Google from "expo-auth-session/providers/google";
+
+  WebBrowser.maybeCompleteAuthSession();
+  
+
+  export default function Login() {
     const navigation = useNavigation();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const [request, response, promptAsync] = Google.useAuthRequest({
+      clientId: "580039357341-dmdn5nm9f41ppk844a7f31i5c708v84m.apps.googleusercontent.com",
+      // iosClientId: "YOUR_IOS_CLIENT_ID",
+      // androidClientId: "YOUR_ANDROID_CLIENT_ID",
+    });
+
+    useEffect(() => {
+      if (response?.type === "success") {
+        const { id_token } = response.params;
+        const credential = GoogleAuthProvider.credential(id_token);
+        signInWithCredential(auth, credential)
+          .then((userCredential) => {
+            console.log("User signed in:", userCredential.user);
+          })
+          .catch((error) => console.error("Sign-in error:", error));
+      }
+    }, [response]);
+
+    
 
     const handleSubmit = async ()=>{
       console.log("clicked");
@@ -42,7 +68,11 @@ export default function Login() {
    {/* <ImageBackground style={{height:200, width:200, left:80,top:20}} source={require("../assets/box.png")}></ImageBackground> */}
  </View>
  
+ 
       <View style={styles.cardh}>
+      <TouchableOpacity title="Sign in with Google" disabled={!request} onPress={() => promptAsync()} >
+        <Text>Google</Text>
+      </TouchableOpacity>
         <Text style={styles.input_lable}>Email</Text>
         <TextInput
           style={styles.input_text}
