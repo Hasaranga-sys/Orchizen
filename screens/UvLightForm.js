@@ -9,7 +9,7 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Platform,
-    SafeAreaView,
+    ToastAndroid,
     Dimensions,
     ImageBackground,
     TouchableOpacity,
@@ -19,11 +19,18 @@ import {
   import * as ImagePicker from 'expo-image-picker';
   import React, { useState, useEffect } from "react";
   const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+  import { Picker } from '@react-native-picker/picker';
+  import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function UvLightForm() {
+    const [startDate, setStartDate] = useState(new Date());
+    const [startTime, setStartTime] = useState(new Date);
+    const [endTime, setEndTime] = useState(new Date);
     const [file1, setImage1] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
     const [result1, setResult1] = useState(null);
+    const [showStartPicker, setShowStartPicker] = useState(false);
+    const [showEndPicker, setShowEndPicker] = useState(false);
     const navigation = useNavigation();
 
     const pickImage = async (setImage) => {
@@ -61,7 +68,7 @@ export default function UvLightForm() {
 
       const uploadImages = async () => {
         if (!file1) {
-          alert("Please select both images before uploading!");
+          alert("Please select an image before uploading!");
           return;
         }
       
@@ -69,7 +76,6 @@ export default function UvLightForm() {
       
         try {
           const formData1 = new FormData();
-        //   const formData2 = new FormData();
       
           formData1.append("file1", {
             uri: file1,
@@ -77,40 +83,23 @@ export default function UvLightForm() {
             type: "image/jpeg",
           });
       
-        //   formData2.append("file2", {
-        //     uri: file2,
-        //     name: "file2.jpg",
-        //     type: "image/jpeg",
-        //   });
-      
           // Upload first image
-          const response1 = await fetch("http://192.168.255.46:8082/uvlight", {
+          const response1 = await fetch("http://192.168.137.46:8082/uvlight", {
             method: "POST",
             body: formData1,
             headers: {
               "Content-Type": "multipart/form-data",
             },
           });
-      
-          // Upload second image
-        //   const response2 = await fetch("http://192.168.79.46:8082/orchizenfer2", {
-        //     method: "POST",
-        //     body: formData2,
-        //     headers: {
-        //       "Content-Type": "multipart/form-data",
-        //     },
-        //   });
-      
+            
           if (response1.ok) {
               const data1 = await response1.json(); 
-            //   const data2 = await response2.json(); 
               setResult1(data1);
-            //   setResult2(data2);
-      
-              // console.log("Data1",result1.results.header.Flowers); 
-              // console.log("Data2",data2); 
-      
-            alert("Images uploaded successfully!");
+              ToastAndroid.showWithGravity(
+                'Image Uploaded successfully !',
+                ToastAndroid.SHORT,
+                ToastAndroid.BOTTOM,
+              );
           } else {
             console.log(response1);
             alert("Failed to upload images. Please try again.");
@@ -152,10 +141,141 @@ export default function UvLightForm() {
                     
                 </TouchableOpacity>
 
+                {result1 &&(
+                  <View>
+                    <View style={styles.Resultcard}>
+                    <Text style={styles.label1}>Orchid Type      :</Text>
+                    <Text style={styles.label2}>   {result1.results.header.Orchid_Type}</Text>
+                  </View>
+
+                  <View style={styles.Resultcard}>
+                    <Text style={styles.label3}>Disease Type   :</Text>
+                    <Text style={styles.label4}>   {result1.results.header.Disease_Type}</Text>
+                  </View>
+
+                  <View style={styles.Resultcard}>
+                    <Text style={styles.label3}>Fungicides        :</Text>
+                    <Text style={styles.label4}>   {result1.results.header.Fungicides}</Text>
+                  </View>
+                    
+                  </View>
+
+                
+                
+                  )}     
+
                 <TouchableOpacity style={styles.startButton} onPress={uploadImages}>
                     <Text style={styles.startButtonText}>Confirm & Scan</Text>
                 </TouchableOpacity>
             </View>
+
+            {result1 &&(
+              <View>
+                      <View style={styles.cardsContainer}>
+                        <View style={styles.greenCardContainer}>
+                            <View style={styles.greenCardContent}>
+                            <Image source={require("../assets/images/notification.png")}  style={styles.greenCardHeaderIcon} />
+                                <Text style={styles.greenCardHeaderText}>Capturing or uploading clear identical images will ensure a high level of accuracy.</Text>                
+                        </View>           
+                        </View> 
+                      </View>
+
+                
+                <View style={styles.cardContainer}>
+
+                <View style={styles.blackBox}>
+                  <Text style={styles.blackBoxLabel} >UV Schedule</Text>
+                </View>
+  
+
+                <View style={styles.datePickerContainer}>
+                        <Text style={styles.label}>Date</Text>
+                        <TouchableOpacity
+                        style={styles.dateButton}
+                        onPress={() => setShowStartPicker(true)}
+                        >
+                        <Text style={styles.dateText}>
+                            {startDate.toDateString()}
+                        </Text>
+                        </TouchableOpacity>
+                        {showStartPicker && (
+                        <DateTimePicker
+                            value={startDate}
+                            mode="date"
+                            display="default"
+                            onChange={(event, selectedDate) => {
+                            setShowStartPicker(false);
+                            if (selectedDate) {
+                                setStartDate(selectedDate);
+                            }
+                            }}
+                        />
+                        )}
+                </View> 
+
+  
+        <View style={styles.timePickerContainer}>
+                <Text style={styles.timelabel2}>Time</Text>
+                <TouchableOpacity
+                style={styles.timeButton}
+                onPress={() => setShowStartPicker(true)}
+                >
+                <Text style={styles.timeText}>
+                  {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </Text>
+                </TouchableOpacity>
+                {showStartPicker && (
+                <DateTimePicker
+                    value={startTime}
+                    mode="time"
+                    display="default"
+                    onChange={(event, selectedTime) => {
+                    setShowStartPicker(false);
+                    if (selectedTime) {
+                        setStartTime(selectedTime);
+                    }
+                    }}
+                />
+                )}
+
+          <Text style={styles.timelabel2}>To</Text>
+            <TouchableOpacity
+            style={styles.timeButton}
+            onPress={() => setShowEndPicker(true)}
+            >
+            <Text style={styles.timeText}>
+              {endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </Text>
+            </TouchableOpacity>
+            {showEndPicker && (
+            <DateTimePicker
+                value={endTime}
+                mode="time"
+                display="default"
+                onChange={(event, selectedTime) => {
+                setShowEndPicker(false);
+                if (selectedTime) {
+                    setEndTime(selectedTime);
+                }
+                }}
+            />
+            )}
+  </View> 
+      
+
+
+  <TouchableOpacity style={styles.startButton}
+  >
+      <Text style={styles.startButtonText}>Turn On</Text>
+  </TouchableOpacity>
+</View>
+
+
+              </View>
+
+            )}
+
+
             </ScrollView>
         </View>
 
@@ -324,6 +444,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       width:"60%",
     //   borderWidth:1,
+    marginTop:20,
       marginHorizontal:"20%"
     },
     startButtonText: {
@@ -333,13 +454,127 @@ const styles = StyleSheet.create({
     },
   
   label: {
+    marginRight: 25,
+    color: "#333",
+
+  },
+  timelabel: {
     // fontSize: 16,
     // marginBottom: 5,
     color: "#333",
-    // borderWidth:1,
-    width: "30%", 
-    marginTop:7,
+    borderWidth:1,
+    // width: "", 
+    // marginTop:7,
     
+  },
+  timelabel2: {
+    // fontSize: 16,
+    marginRight: 20,
+    color: "#333",
+    // borderWidth:1,
+    // width: "", 
+    // marginTop:7,
+    
+  },
+  Resultcard: {
+    flexDirection: "row",
+    marginBottom: 10,
+    // borderWidth:1,
+  },
+  label1: {
+    fontSize: 15,
+    fontWeight:"bold",
+    // marginBottom: 5,
+    color: "#16b464",
+    // borderWidth:1,
+    width: "43%", 
+  
+  },
+  label2: {
+    fontSize: 15,
+    fontWeight:"bold",
+    color: "#333",
+    // borderWidth:1,
+    width: "37%", 
+  
+  },
+  
+  label3: {
+    fontSize: 15,
+    fontWeight:"bold",
+    // marginBottom: 5,
+    color: "#16b464",
+    // borderWidth:1,
+    width: "45%", 
+  
+  },
+  label4: {
+    fontSize: 15,
+    fontWeight:"bold",
+    color: "#333",
+    // borderWidth:1,
+    width: "55%", 
+  },
+  datePickerContainer: {
+    width: "99%",
+    // borderWidth:2,
+    marginBottom: 20,
+    flexDirection :"row",
+  },
+  dateButton: {
+    // padding: 10,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    // borderWidth:2,
+    width: "60%"
+  },
+  dateText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  
+
+  timePickerContainer: {
+    width: "99%",
+    // borderWidth:1,
+    marginBottom: 20,
+    flexDirection :"row",
+  },
+  timeButton: {
+    marginRight: 20,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    // borderWidth:2,
+    width: "20%"
+  },
+  timeText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  blackBox: {
+    width: 341,
+    marginLeft:-26,
+    borderWidth:2,
+    alignItems:"center",
+    backgroundColor:"black",
+    marginBottom:20,
+
+    },
+  blackBoxLabel: {
+    fontSize: 16,
+    fontWeight:"bold",
+    // marginRight: 25,
+    color: "#ffff",
+    borderWidth:1,
+    width: "33%", 
+    // marginTop:7,
+
   },
 
   });
