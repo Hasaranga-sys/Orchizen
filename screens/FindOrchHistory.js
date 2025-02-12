@@ -47,7 +47,7 @@ const FindOrchHistory = ({route}) => {
             <TouchableOpacity style={styles.backButton} 
             onPress={() => navigation.navigate('FindHome')}
             >
-              <Text style={styles.backText}>{"< Back"}</Text>
+               <Image source={require("../assets/images/back.png")} style={styles.backImage} />
             </TouchableOpacity>
             <View style={styles.headerContent}>
                     <Text style={styles.headerText}>Treat orchids with grow lights...</Text>
@@ -492,6 +492,12 @@ const styles = StyleSheet.create({
           // borderWidth:1,
           marginTop:5,
           fontSize: 20,
+        },
+        backImage: {
+          width: 30,
+          height: 30,
+          borderRadius: 10,
+          marginRight: 10,
         },
   
   

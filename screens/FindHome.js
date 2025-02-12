@@ -144,7 +144,7 @@ export default function FindHome() {
         <TouchableOpacity style={styles.backButton} 
         onPress={() => navigation.navigate('Home')}
         >
-          <Text style={styles.backText}>{"< Back"}</Text>
+           <Image source={require("../assets/images/back.png")} style={styles.backImage} />
         </TouchableOpacity>
         <View style={styles.headerContent}>
                 <Text style={styles.headerText}>Select the best orchid species...</Text>
@@ -402,6 +402,12 @@ const styles = StyleSheet.create({
         // borderWidth:1,
         width:"90"
         // fontWeight: "bold",
+      },
+      backImage: {
+        width: 30,
+        height: 30,
+        borderRadius: 10,
+        marginRight: 10,
       },
 
   });

@@ -85,7 +85,7 @@ export default function FindNewOrchids() {
           <TouchableOpacity style={styles.backButton} 
           onPress={() => navigation.navigate('FindHome')}
           >
-            <Text style={styles.backText}>{"< Back"}</Text>
+             <Image source={require("../assets/images/back.png")} style={styles.backImage} />
           </TouchableOpacity>
           <View style={styles.headerContent}>
                   <Text style={styles.headerText}>Find new orchid species...</Text>
@@ -575,6 +575,12 @@ const styles = StyleSheet.create({
         height: 55,
         // marginHorizontal:5,
         // borderWidth:1,
+      },
+      backImage: {
+        width: 30,
+        height: 30,
+        borderRadius: 10,
+        marginRight: 10,
       },
   
 

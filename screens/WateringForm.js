@@ -61,7 +61,7 @@ export default function WateringForm() {
       };
   
       try {
-        const response = await fetch("http://192.168.255.46:8082/schedule", {
+        const response = await fetch("http://192.168.137.46:8082/schedule", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export default function WateringForm() {
             <TouchableOpacity style={styles.backButton} 
             onPress={() => navigation.navigate('Watering')}
             >
-              <Text style={styles.backText}>{"< Back"}</Text>
+               <Image source={require("../assets/images/back.png")} style={styles.backImage} />
             </TouchableOpacity>
             <View style={styles.headerContent}>
                     <Text style={styles.headerText}>Treat orchids with grow lights...</Text>
@@ -403,5 +403,11 @@ const styles = StyleSheet.create({
       dateText: {
         fontSize: 16,
         color: "#333",
+      },
+      backImage: {
+        width: 30,
+        height: 30,
+        borderRadius: 10,
+        marginRight: 10,
       },
   });

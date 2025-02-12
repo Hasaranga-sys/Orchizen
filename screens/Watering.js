@@ -23,7 +23,7 @@ export default function Watering() {
         <TouchableOpacity style={styles.backButton} 
         onPress={() => navigation.navigate('Home')}
         >
-          <Text style={styles.backText}>{"< Back"}</Text>
+             <Image source={require("../assets/images/back.png")} style={styles.backImage} />
         </TouchableOpacity>
         <View style={styles.headerContent}>
                 <Text style={styles.headerText}>Grow orchids with scheduled watering...</Text>
@@ -208,6 +208,12 @@ const styles = StyleSheet.create({
     cardImage: {
       width: 70,
       height: 70,
+      borderRadius: 10,
+      marginRight: 10,
+    },
+    backImage: {
+      width: 30,
+      height: 30,
       borderRadius: 10,
       marginRight: 10,
     },

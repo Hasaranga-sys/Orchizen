@@ -65,7 +65,7 @@ export default function EmergencyWaterForm() {
       try {
         setLoading(true);
   
-        const response = await fetch("http://192.168.255.46:8082/emergency-water", {
+        const response = await fetch("http://192.168.137.46:8082/emergency-water", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export default function EmergencyWaterForm() {
           <TouchableOpacity style={styles.backButton} 
           onPress={() => navigation.navigate('Watering')}
           >
-            <Text style={styles.backText}>{"< Back"}</Text>
+            <Image source={require("../assets/images/back.png")} style={styles.backImage} />
           </TouchableOpacity>
           <View style={styles.headerContent}>
                   <Text style={styles.headerText}>Treat orchids with grow lights...</Text>
@@ -368,6 +368,12 @@ input: {
   borderWidth: 1,
   marginBottom: 10,
   paddingHorizontal: 10,
+},
+backImage: {
+  width: 30,
+  height: 30,
+  borderRadius: 10,
+  marginRight: 10,
 },
 });
 
