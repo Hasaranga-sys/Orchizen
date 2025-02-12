@@ -11,24 +11,37 @@ import {
   } from "react-native";
   import {auth} from '../firebase/firebase-config';
   import { useNavigation } from "@react-navigation/native";
-  import { signInWithEmailAndPassword,getAuth,signInWithCredential,GoogleAuthProvider  } from 'firebase/auth';
+  // import { signInWithEmailAndPassword,getAuth,signInWithCredential,GoogleAuthProvider  } from 'firebase/auth';
   import * as WebBrowser from "expo-web-browser";
   import * as Google from "expo-auth-session/providers/google";
+// import { GoogleSigninButton } from "@react-native-google-signin/google-signin";
+
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+// import { GoogleSignin, GoogleSigninButton, statusCodes } from "@react-native-google-signin/google-signin";
 
   WebBrowser.maybeCompleteAuthSession();
   
+  // ✅ Configure Google Sign-In
+// useEffect(() => {
+//   GoogleSignin.configure({
+//     webClientId: "350660592403-gnds3l3um5gip6lk9vj95i5atggrcvu3.apps.googleusercontent.com", // Make sure this is the Web Client ID from Firebase
+//   });
+// }, []);
 
   export default function Login() {
     const navigation = useNavigation();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    //seperate
     const [request, response, promptAsync] = Google.useAuthRequest({
-      clientId: "580039357341-dmdn5nm9f41ppk844a7f31i5c708v84m.apps.googleusercontent.com",
+      // clientId: "350660592403-gnds3l3um5gip6lk9vj95i5atggrcvu3.apps.googleusercontent.com",
+      // redirectUri: "https://auth.expo.io/@prestongg99/Orch_mobile",
       // iosClientId: "YOUR_IOS_CLIENT_ID",
-      // androidClientId: "YOUR_ANDROID_CLIENT_ID",
+      androidClientId: "350660592403-gnds3l3um5gip6lk9vj95i5atggrcvu3.apps.googleusercontent.com",
     });
 
+    //seperate
     useEffect(() => {
       if (response?.type === "success") {
         const { id_token } = response.params;
@@ -41,7 +54,63 @@ import {
       }
     }, [response]);
 
-    
+    // seperate
+    // const signIn = async () => {
+
+    //   GoogleSignin.configure({
+    //     webClientId: '350660592403-gnds3l3um5gip6lk9vj95i5atggrcvu3.apps.googleusercontent.com',
+    //   });
+
+    //   try {
+    //     await GoogleSignin.hasPlayServices();
+    //     const response = await GoogleSignin.signIn();
+    //     // if (isSuccessResponse(response)) {
+    //     //   setState({ userInfo: response.data });
+    //     // } else {
+    //     //   // sign in was cancelled by user
+    //     // }
+    //   } catch (error) {
+    //     if (isErrorWithCode(error)) {
+    //       switch (error.code) {
+    //         case statusCodes.IN_PROGRESS:
+    //           ToastAndroid.show('Login successful', ToastAndroid.SHORT);
+    //           // operation (eg. sign in) already in progress
+    //           break;
+    //         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+    //           // Android only, play services not available or outdated
+    //           break;
+    //         default:
+    //         // some other error happened
+    //       }
+    //     } else {
+    //       // an error that's not related to google sign in occurred
+    //     }
+    //   }
+    // };
+
+     // ✅ Google Sign-In Function
+  // const signInWithGoogle = async () => {
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     const userInfo = await GoogleSignin.signIn();
+  //     const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
+
+  //     // 🔥 Sign in to Firebase with Google credentials
+  //     await signInWithCredential(auth, googleCredential);
+  //     ToastAndroid.show("Login successful", ToastAndroid.SHORT);
+  //   } catch (error) {
+  //     console.log("Google Sign-In Error:", error);
+  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+  //       ToastAndroid.show("Google sign-in cancelled", ToastAndroid.SHORT);
+  //     } else if (error.code === statusCodes.IN_PROGRESS) {
+  //       ToastAndroid.show("Google sign-in in progress", ToastAndroid.SHORT);
+  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+  //       ToastAndroid.show("Google Play Services not available", ToastAndroid.SHORT);
+  //     } else {
+  //       ToastAndroid.show("Google sign-in failed", ToastAndroid.SHORT);
+  //     }
+  //   }
+  // };
 
     const handleSubmit = async ()=>{
       console.log("clicked");
@@ -73,6 +142,9 @@ import {
       <TouchableOpacity title="Sign in with Google" disabled={!request} onPress={() => promptAsync()} >
         <Text>Google</Text>
       </TouchableOpacity>
+
+      {/* <GoogleSigninButton onPress={signInWithGoogle}/> */}
+
         <Text style={styles.input_lable}>Email</Text>
         <TextInput
           style={styles.input_text}

@@ -20,13 +20,9 @@ import {
   import { Picker } from '@react-native-picker/picker';
   import DateTimePicker from "@react-native-community/datetimepicker";
   const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-
+  import { C3 } from "./ApiData";
   
-  const orchid_types = [
-    'Orange orchid',
-    'Red orchid',
-    'Blue orchid',
-  ];
+  const orchid_types = ["Dendrobium", "Vanda", "Phalaenopsis"];
 
   const test_mange = [
     'Full Blood Count (FBC) (Optional)',
@@ -61,7 +57,7 @@ export default function WateringForm() {
       };
   
       try {
-        const response = await fetch("http://192.168.137.46:8082/schedule", {
+        const response = await fetch(`${C3}/schedule`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

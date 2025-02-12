@@ -19,7 +19,7 @@ import {
   import * as ImagePicker from 'expo-image-picker';
   import React, { useState, useEffect } from "react";
   const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-
+  import { C2 } from "./ApiData";
   export default function GrowLight() {
     const [file1, setImage1] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
@@ -84,7 +84,7 @@ import {
         //   });
       
           // Upload first image
-          const response1 = await fetch("http://192.168.255.46:8082/growlight", {
+          const response1 = await fetch(`${C2}/growlight`, {
             method: "POST",
             body: formData1,
             headers: {

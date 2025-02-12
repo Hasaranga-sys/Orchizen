@@ -22,6 +22,7 @@ import {
   import { collection, addDoc } from 'firebase/firestore';
   import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { auth,db } from '../firebase/firebase-config'; 
+import { C1 } from "./ApiData";
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function FindNewOrchids() {
@@ -40,7 +41,7 @@ export default function FindNewOrchids() {
         setUser(authUser);
       });
     
-      fetch('http://192.168.255.46:8082/api/days')
+      fetch(`${C1}/api/days`)
         .then(response => response.json())
         .then(data => {
           setDaysData(data.days);

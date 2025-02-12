@@ -22,14 +22,10 @@ import {
   import { Picker } from '@react-native-picker/picker';
   import DateTimePicker from "@react-native-community/datetimepicker";
   import { GestureHandlerRootView } from 'react-native-gesture-handler';
+  import { C3 } from "./ApiData";
   const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-  
-  const orchid_types = [
-    'Red orchid',
-    'Blue Orchid',
-    'Orange Orchid',
-  ];
+  const orchid_types = ["Dendrobium", "Vanda", "Phalaenopsis"];
 
 export default function EmergencyWaterForm() {
 
@@ -65,7 +61,7 @@ export default function EmergencyWaterForm() {
       try {
         setLoading(true);
   
-        const response = await fetch("http://192.168.137.46:8082/emergency-water", {
+        const response = await fetch(`${C3}/emergency-water`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -137,7 +133,7 @@ export default function EmergencyWaterForm() {
         try {
           setLoading(true);
     
-          const response = await fetch("http://192.168.175.46:8082/emergency-water", {
+          const response = await fetch(`${C3}/emergency-water`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -182,9 +178,9 @@ export default function EmergencyWaterForm() {
                 onValueChange={(itemValue) => setSelectedFlower(itemValue)}
                 style={styles.picker}
               >
-                <Picker.Item label="Green Orchid" value="green orchid" />
-                <Picker.Item label="Red Orchid" value="red orchid" />
-                <Picker.Item label="Blue Orchid" value="blue orchid" />
+                  <Picker.Item label="Dendrobium" value="Dendrobium" />
+                  <Picker.Item label="Vanda" value="Vanda" />
+                  <Picker.Item label="Phalaenopsis" value="Phalaenopsis" />
               </Picker>
               <View style={styles.greenCard}>
                 <Text style={styles.greenCardText}>

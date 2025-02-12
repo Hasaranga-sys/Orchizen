@@ -22,6 +22,7 @@ import {
   import { Picker } from '@react-native-picker/picker';
   import DateTimePicker from "@react-native-community/datetimepicker";
 
+  import { C2 } from "./ApiData";
 export default function UvLightForm() {
     const [startDate, setStartDate] = useState(new Date());
     const [startTime, setStartTime] = useState(new Date);
@@ -84,7 +85,7 @@ export default function UvLightForm() {
           });
       
           // Upload first image
-          const response1 = await fetch("http://192.168.137.46:8082/uvlight", {
+          const response1 = await fetch(`${C2}/uvlight`, {
             method: "POST",
             body: formData1,
             headers: {
