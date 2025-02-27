@@ -126,14 +126,14 @@ export default function Profile() {
             <ScrollView contentContainerStyle={styles.scrollContainer}>
             <Header />
             <View style={styles.cardsContainer}>
-  
+{/*   
             <View style={styles.greenCardContainer}>
                 <View style={styles.greenCardContent}>
                 <Image source={require("../assets/images/notification.png")}  style={styles.greenCardHeaderIcon} />
-                    <Text style={styles.greenCardHeaderText}>Capturing or uploading clear identical images will ensure a high level of accuracy.</Text>                
+                    <Text style={styles.greenCardHeaderText}>Your Profile Details.</Text>                
             </View>           
             </View>       
-  
+   */}
             </View>
   
             <View style={styles.cardContainer}>

@@ -58,13 +58,14 @@ import {
             {/* <Text style={styles.backText}>{"< Back"}</Text> */}
           </TouchableOpacity>
           <View style={styles.headerContent}>
-                  <Text style={styles.headerText}>OrchiZen</Text>
-        <Image
-          source={require("../assets/images/homeLogo.png")}
-          style={styles.headerIcon}
-        />
+            <View style={styles.subHeaderContent} >
+                <Text style={styles.headerText}>OrchiZen</Text>
+                 <Text style={styles.backText}>{formattedDate}</Text>
+            </View>            
+              
+             <Image  source={require("../assets/images/homeLogo.png")}   style={styles.headerIcon} />
          </View>
-          <Text style={styles.backText}>{formattedDate}</Text>
+          
         </View>
       );
     };
@@ -183,9 +184,13 @@ import {
     headerContent: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
       // borderWidth:1,
       width:"93%",
+      height:"45%",
+    },
+    subHeaderContent: {
+      // borderWidth:1,
     },
     headerText: {
       fontSize: 32,
@@ -195,9 +200,9 @@ import {
       // borderWidth:1,
     },
     headerIcon: {
-      width: 63,
-      height: 63,
-      // borderWidth:1,
+      width: "60",
+      height: "60",
+      // borderWidth:1
     },
     backButton: {
       position: 'absolute',
@@ -209,9 +214,10 @@ import {
     backText: {
       fontSize: 16,
       color: '#fff',
-      fontWeight: 'bold',
-      marginLeft:20,
-      alignSelf :"flex-start",
+      fontWeight: '400',
+      // marginLeft:20,
+      // alignSelf :"flex-start",
+      // borderWidth:1,
     },
     headCardContainer: {
       flex: 1,

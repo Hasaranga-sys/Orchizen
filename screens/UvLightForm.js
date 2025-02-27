@@ -330,10 +330,12 @@ const styles = StyleSheet.create({
         color: '#fff',
         flex: 1,
         // borderWidth:1,
+        marginTop:30,
       },
       headerIcon: {
         width: 63,
-        height: 63,
+        height: 100,
+        padding:30,
         // borderWidth:1,
       },
       backButton: {

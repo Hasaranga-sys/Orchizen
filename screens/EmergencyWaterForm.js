@@ -270,8 +270,8 @@ const styles = StyleSheet.create({
     // borderWidth:1,
   },
   headerIcon: {
-    width: 63,
-    height: 63,
+    width: 100,
+    height: 73,
     // borderWidth:1,
   },
   backButton: {

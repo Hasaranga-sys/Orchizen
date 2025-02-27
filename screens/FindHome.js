@@ -266,6 +266,7 @@ const styles = StyleSheet.create({
       // paddingHorizontal: 16,
       paddingTop: 16,
       justifyContent:"flex-end",
+      zIndex: 11,
       // borderWidth:1,
   
     },
@@ -304,8 +305,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#ffffff',
         padding: 16,
+        marginTop:-40,
         marginBottom:20,
-        zIndex: 4
+        zIndex: 9
         
       },
     noDataIcon: {
