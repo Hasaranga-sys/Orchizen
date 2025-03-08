@@ -69,9 +69,9 @@ export default function Watering() {
         </View>
         
       </View>
-      {/* <TouchableOpacity style={styles.PastRecordbutton} onPress={() => navigation.navigate('WateringHistoryList')}>
+      <TouchableOpacity style={styles.PastRecordbutton} onPress={() => navigation.navigate('WateringHistoryList')}>
                 <Text style={styles.buttonText}>Past Records</Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
 
     </View>
   )
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
       // borderWidth:1,
     },
     headerIcon: {
-      width: 63,
-      height: 63,
+      width:60,
+      height: 73,
       // borderWidth:1,
     },
     backButton: {
@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
       height: 70,
       borderRadius: 10,
       marginRight: 10,
+      // borderWidth:1,
     },
     backImage: {
       width: 30,
