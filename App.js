@@ -31,6 +31,7 @@ import Profile from "./screens/Profile";
 import CapturePlant from "./screens/fertilizer/CapturePlant";
 import MainFertilizer from "./screens/fertilizer/MainFertilizer";
 import FertilizingRecords from "./screens/fertilizer/FertilizingRecords";
+import PlantRecommendation from "./screens/fertilizer/PlantRecommendation";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -228,6 +229,10 @@ const FertilizerStack = () => {
       <Stack.Screen name="MainFertilizer" component={MainFertilizer} />
       <Stack.Screen name="CapturePlant" component={CapturePlant} />
       <Stack.Screen name="FertilizingRecords" component={FertilizingRecords} />
+      <Stack.Screen
+        name="PlantRecommendation"
+        component={PlantRecommendation}
+      />
     </Stack.Navigator>
   );
 };

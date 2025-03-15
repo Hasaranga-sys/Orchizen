@@ -7,37 +7,19 @@ import {
   ScrollView,
   Dimensions,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import FERTILIZER_API from "../../service/API";
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 export default function FertilizingRecords() {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
-
-  const orchidData = [
-    {
-      name: "Dendrobium",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
-      //   image: require("./assets/dendrobium.png"), // Replace with your orchid images
-    },
-    {
-      name: "Vanda",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
-      //   image: require("./assets/vanda.png"), // Replace with your orchid images
-    },
-    {
-      name: "Phalaenopsis",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
-      //   image: require("./assets/phalaenopsis.png"), // Replace with your orchid images
-    },
-  ];
-
-  const [data, setData] = useState(orchidData);
+  const [data, setData] = useState([]);
+  const [orchidData, setOrchidData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleSearch = (val) => {
     setSearchText(val);
@@ -45,11 +27,41 @@ export default function FertilizingRecords() {
 
     const filteredData = orchidData.filter(
       (item) =>
-        item.name.toLowerCase().includes(val.toLowerCase()) ||
-        item.description.toLowerCase().includes(val.toLowerCase())
+        item.growth_stage?.toLowerCase().includes(val.toLowerCase()) ||
+        item.fertilizer_recommendation?.name
+          ?.toLowerCase()
+          .includes(val.toLowerCase()) ||
+        item.fertilizer_recommendation?.amount?.includes(val)
     );
     setData(filteredData);
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(FERTILIZER_API + "/plant-growths");
+      const json = await response.json();
+      return json.data;
+    } catch (error) {
+      console.error("Error fetching plant growth records:", error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      const result = await fetchData();
+      console.log(result);
+      console.log(
+        "Image URL:",
+        `${FERTILIZER_API}${result[0]?.plant_features?.img_url}`
+      );
+      setData(result);
+      setOrchidData(result);
+      setLoading(false);
+    };
+
+    getData();
+  }, []);
 
   const Header = () => {
     return (
@@ -96,23 +108,44 @@ export default function FertilizingRecords() {
               onChangeText={(value) => handleSearch(value)}
             />
           </View>
-          {/* Orchid Types List */}
-          <ScrollView>
-            {data.map((orchid, index) => (
-              <View key={index} style={styles.card}>
-                <Image source={orchid.image} style={styles.cardImage} />
-                <View style={styles.cardContent}>
-                  <Text style={styles.cardTitle}>{orchid.name}</Text>
-                  <Text style={styles.cardDescription}>
-                    {orchid.description}
-                  </Text>
-                  <TouchableOpacity>
-                    <Text style={styles.cardLink}>See More &gt;&gt;</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ))}
-          </ScrollView>
+          {loading ? (
+            <ActivityIndicator size="large" color="#16B364" />
+          ) : (
+            <ScrollView>
+              {data.map((orchid, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.card}
+                  onPress={() =>
+                    navigation.navigate("PlantRecommendation", {
+                      orchid: orchid,
+                    })
+                  }
+                >
+                  <Image
+                    source={{
+                      uri: `${FERTILIZER_API}${orchid?.plant_features?.img_url}`,
+                    }}
+                    style={styles.cardImage}
+                  />
+                  <View style={styles.cardContent}>
+                    <Text style={styles.cardTitle}>
+                      {orchid?.growth_stage
+                        ? orchid.growth_stage.split("(")[0]
+                        : "Unknown"}
+                    </Text>
+                    <Text style={styles.cardDescription}>
+                      {orchid?.fertilizer_recommendation?.name ||
+                        "No recommendation"}
+                    </Text>
+                    <Text style={styles.cardDescription}>
+                      {orchid?.fertilizer_recommendation?.amount || "N/A"}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -214,14 +247,13 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cardImage: {
-    width: 70,
-    height: 70,
+    width: 100,
+    height: 150,
     borderRadius: 10,
     marginRight: 10,
   },
   cardContent: {
     flex: 1,
-    justifyContent: "center",
   },
   cardTitle: {
     fontSize: 16,
